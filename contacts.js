@@ -1,9 +1,7 @@
-//const fs = require('fs');
 const fs = require("fs").promises;
 const path = require("path");
 
 const contactsPath = path.resolve("db/contacts.json");
-//====work!!!=======
 function listContacts() {
   fs.readFile(contactsPath, "utf8")
     .then((data) => {
@@ -11,7 +9,6 @@ function listContacts() {
     })
     .catch((err) => console.log(err.message));
 }
-//listContacts();
 
 const [, , contactId, name, email, phone] = process.argv;
 
@@ -25,7 +22,6 @@ function getContactById(contactId) {
     })
     .catch((err) => console.log(err.message));
 }
-//getContactById(contactId);
 
 function removeContact(contactId) {
   fs.readFile(contactsPath, "utf8")
@@ -37,10 +33,9 @@ function removeContact(contactId) {
       fs.writeFile(contactsPath, JSON.stringify(contactsUpdated), "utf8");
 
       console.log(`Contact with id:${contactId} was deleted`);
-    }).then(listContacts())
+    })
     .catch((err) => console.log(err.message));
 }
-//removeContact(contactId);
 
 function addContact(name, email, phone) {
   fs.readFile(contactsPath, "utf8")
@@ -55,12 +50,14 @@ function addContact(name, email, phone) {
       };
       const newList = [...contactsList, newContact];
       fs.writeFile(contactsPath, JSON.stringify(newList), "utf8");
+      console.log(`New contact ${name} was added`);
     })
     .catch((err) => console.log(err.message));
 }
-// addContact(name, email, phone);
-// listContacts();
 
 module.exports = {
-  listContacts, getContactById,removeContact,addContact
-}
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+};
